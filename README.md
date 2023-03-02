@@ -20,12 +20,22 @@ sudo apt install gcc- arm -linux -gnueabi qemu-user-static
 Sigue los pasos del proceso de compilación para crear tu
 programa ejecutable con extensión ELF. Nota que arm-gcc y arm-
 as son alias del compilador cruzado GCC para arm.
-````python
-import csv
 
-with open("sample.csv","r") as csvinput: # read input csv file
-    reader = csv.reader(csvinput) # create a reader
-    for row in reader:
-        print(row[0])
-````
+1. Compilación del programa base escrito en с mediante el
+    comando 
+    ````arm
+    arm-gcc main.c S-march=armv7-m-
+    mtune=cortex-m3.
+    ````
+2. Ensamble del programa en ensamblador modificado que lee y
+    escribe desde la terminal estándar mediante el comando arm-
+    as main.s s-o main.o.
+3. Enlace del código objeto con la biblioteca estándar mediante
+    el comando arm-gcc main.o -о main.elf -static. El enlace
+    implícito con la biblioteca estándar permite que la función
+    main pueda ser ejecutada. La opción static indica que el
+    programa no tiene dependencias con bibliotecas dinámicas.
+4. Ejecución del programa mediante el comando ./main.elf. La
+    ejecución también se consigue empleando el comando arm-
+
 
