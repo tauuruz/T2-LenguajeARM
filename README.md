@@ -51,4 +51,8 @@ as son alias del compilador cruzado GCC para arm.
     ````
     donde arm-run es un alias de qemu-static-user.
 
-
+## Objetivo de la practica
+1. Leer de la entrada estándar los argumentos de un programa
+    que procesa un arreglo.
+2. Procesar los argumentos de una función.
+3. Imprimir en la terminal estándar el resultado de una función.
