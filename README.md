@@ -76,4 +76,14 @@ Notese que el código de las funciones que leen la
 entrada estándar y escriben en la salida estándar está en
 ensamblador arm.  
 Se incluyen las funciones de lectura, escritura y conversión de código ASCII a números
-enteros.
+enteros.  
+  
+  
+El funcionamiento se da de la siguiente manera:
+
+1. De forma predeterminada la implementación crea un arreglo de 5 elementos inicializados con el valor numerico ''0''.  
+2. Se solicita al usuario que ingrese valores numericos positivos durante 5 iteraciones (Con esto se modifican los valores del arreglo por los ingresados).  
+3. Cada que se ingresa un valor el programa convierte el valor numerico a ASCII.  
+4. Despues de la conversion procesa la cadena en reversa y lo convierte en entero.  
+5. Cuando se realiza la segunda conversion al numero entero se agrega al arreglo.
+6. Al final, el valor de salida es el resultado de sumar los 5 valores numericos dentro del arreglo.
