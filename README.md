@@ -1,8 +1,9 @@
-# T2-LenguajeARM
-Header H1 is used to display the Project heading. 
+# T2: Programación de E/S en lenguaje arm
+    Profesor: Dr. Adán Geovanni Medrano Chávez
+    UEA: Microcontroladores
 
-## Sub Topic Headings H2
-Sub Topic Headings H2 is used for sub sections like Configurations, Authors etc.
+## Integrantes del equipo
+    Erick David Ruiz Coronel    2143067521
 
 ````
 pip install boto
