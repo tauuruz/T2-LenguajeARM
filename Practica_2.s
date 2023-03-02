@@ -49,8 +49,8 @@ insert_value:
     @ Recuperamos los registros y salimos de la función
     movs r3,#0
     mov	r0, r3
-	adds	r7, r7, #20
-	mov	sp, r7
+    adds r7, r7, #20
+    mov	sp, r7
     pop     {r7}
     bx lr
 
