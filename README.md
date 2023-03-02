@@ -15,6 +15,16 @@ sudo apt install gcc-arm-linux-gnueabi qemu-user-static
 ````
 
 ## Compilación
+Se ha incluido el archivo ''makefile'' y para poder usarlo es necesario instalar los paquetes necesarios con el siguiente codigo
+````
+sudo apt install make
+````
+Lo anterior permitirá la compilación y la ejecución del proyecto con tan solo ejecutar el comando
+````
+make
+````
+NOTA: El directorio del bash debe de apuntar al directorio que incluye los archivos del proyecto incluido el makefile
+
 Sigue los pasos del proceso de compilación para crear tu
 programa ejecutable con extensión ELF. Nota que arm-gcc y arm-
 as son alias del compilador cruzado GCC para arm.
