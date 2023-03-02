@@ -11,17 +11,15 @@
 Bajo una distribución basada en Ubuntu, basta con utilizar el comando
 siguiente para instalar el compilador cruzado de arm y un emulador que
 permitirá ejecutar aplicaciones arm desde el pc.
-
 ````
 sudo apt install gcc- arm -linux -gnueabi qemu-user-static
 ````
 
-The above formatting is used to create a box which can display code or command in a well formatted manner.
+## Compilación
 
-
-## Usage
-
-Below is another example of displaying
+Sigue los pasos del proceso de compilación para crear tu
+programa ejecutable con extensión ELF. Nota que arm-gcc y arm-
+as son alias del compilador cruzado GCC para arm.
 ````python
 import csv
 
