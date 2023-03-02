@@ -37,12 +37,12 @@ insert_value:
     str	r2, [r7, #4] 	@r2 contiene el valor a insertar
     
     ldr	r0, [r7, #12]
-	ldr	r1, [r7, #8]
-	ldr	r2, [r7, #4]
+    ldr	r1, [r7, #8]
+    ldr	r2, [r7, #4]
 
     @ Calculamos la dirección del elemento a insertar
-    lsl     r1, r1, #2   @ Multiplicamos el índice por 4 (el tamaño de un word)
-    add     r0, r0, r1   @ Sumamos la dirección base del arreglo con el offset del elemento
+    lsl r1, r1, #2   @ Multiplicamos el índice por 4 (el tamaño de un word)
+    add	r0, r0, r1   @ Sumamos la dirección base del arreglo con el offset del elemento
 
     @ Insertamos el valor en el arreglo
     str     r2, [r0]
