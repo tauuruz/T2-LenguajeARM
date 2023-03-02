@@ -66,3 +66,13 @@ as son alias del compilador cruzado GCC para arm.
 3. Imprimir en la terminal estándar el resultado de una función.
 
 ## Funcionamiento de la implementación
+El presente proyecto resulta de compilar una
+programa escrito en lenguaje с que procesa los elementos de un
+arreglo de tal manera que dicho programa lea los argumentos de
+la función desde la entrada estándar e imprima el resultado en la
+salida estándar.
+Notese que el código de las funciones que leen la
+entrada estándar y escriben en la salida estándar está en
+ensamblador arm.
+Se incluyen las funciones de lectura, escritura y conversión de código ASCII a números
+enteros.
