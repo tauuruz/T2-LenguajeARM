@@ -1,9 +1,10 @@
 # T2: Programación de E/S en lenguaje arm
-    Profesor: Dr. Adán Geovanni Medrano Chávez
-    UEA: Microcontroladores
+Profesor: Dr. Adán Geovanni Medrano Chávez  
+UEA: Microcontroladores
 
 ## Integrantes del equipo
-    Erick David Ruiz Coronel    2143067521
+Erick David Ruiz Coronel    2143067521  
+xxxxx
     
 
 ## Proceso de instalación del compilador cruzado para arm
