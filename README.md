@@ -3,7 +3,7 @@ Profesor: Dr. Adán Geovanni Medrano Chávez
 UEA: Microcontroladores
 
 ## Integrantes del equipo
-Erick David Ruiz Coronel    2143067521  
+Erick David Ruiz Coronel - 2143067521  
 xxxxx
     
 
