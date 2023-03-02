@@ -1,4 +1,4 @@
-.arch armv7-m
+	.arch armv7-m
 	.fpu softvfp
 	.eabi_attribute 20, 1
 	.eabi_attribute 21, 1
