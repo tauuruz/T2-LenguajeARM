@@ -29,12 +29,12 @@ insert_value:
     @ Guardamos los registros necesarios
     push    {r7}
     sub	sp, sp, #20
-	add	r7, sp, #0
+    add	r7, sp, #0
 
     @ Cargamos los parámetros en los registros
-    str	r0, [r7, #12]@ r0 contiene la dirección del arreglo
-	str	r1, [r7, #8]@ r1 contiene el índice    
-	str	r2, [r7, #4] @ r2 contiene el valor a insertar
+    str	r0, [r7, #12]	@ r0 contiene la dirección del arreglo
+    str r1, [r7, #8]	@r1 contiene el índice    
+    str	r2, [r7, #4] 	@r2 contiene el valor a insertar
     
     ldr	r0, [r7, #12]
 	ldr	r1, [r7, #8]
