@@ -45,7 +45,7 @@ insert_value:
     add	r0, r0, r1   @ Sumamos la dirección base del arreglo con el offset del elemento
 
     @ Insertamos el valor en el arreglo
-    str     r2, [r0]
+    str r2, [r0]
     @ Recuperamos los registros y salimos de la función
     movs r3,#0
     mov	r0, r3
@@ -59,19 +59,18 @@ sum_array:
     @ Guardamos los registros necesarios@ r0 contiene la dirección del arreglo
     push    {r7}
     sub	sp, sp, #20
-	add	r7, sp, #0
-
+    add	r7, sp, #0
+    
     @ Cargamos los parámetros en los registros
-
     str	r0, [r7, #4]   @ r0 contiene la dirección del arreglo
-	movs	r3, #5     @la cantidad de elementos en el arreglo
-	str	r3, [r7, #8]
-	movs	r3, #0     @la suma de los valores del arreglo
-	str	r3, [r7, #12]
+    movs r3, #5        @la cantidad de elementos en el arreglo
+    str r3, [r7, #8]
+    movs r3, #0        @la suma de los valores del arreglo
+    str	r3, [r7, #12]
     
     ldr	r0, [r7, #12]  @r0 contiene la suma de los valores del arreglo
     ldr	r1, [r7, #8]   @r1 contendrá la cantidad de elementos en el arreglo
-	ldr	r2, [r7, #4]   @r2 contiene la dirección del arreglo
+    ldr	r2, [r7, #4]   @r2 contiene la dirección del arreglo
 
 
     @ Recorremos el arreglo y sumamos sus valores
