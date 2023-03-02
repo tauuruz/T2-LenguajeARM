@@ -7,7 +7,6 @@
     
 
 ## Proceso de instalación del compilador cruzado para arm
-
 Bajo una distribución basada en Ubuntu, basta con utilizar el comando
 siguiente para instalar el compilador cruzado de arm y un emulador que
 permitirá ejecutar aplicaciones arm desde el pc.
@@ -16,7 +15,6 @@ sudo apt install gcc-arm-linux-gnueabi qemu-user-static
 ````
 
 ## Compilación
-
 Sigue los pasos del proceso de compilación para crear tu
 programa ejecutable con extensión ELF. Nota que arm-gcc y arm-
 as son alias del compilador cruzado GCC para arm.
@@ -51,8 +49,10 @@ as son alias del compilador cruzado GCC para arm.
     ````
     donde arm-run es un alias de qemu-static-user.
 
-## Objetivo de la practica
+## Objetivo de la práctica
 1. Leer de la entrada estándar los argumentos de un programa
     que procesa un arreglo.
 2. Procesar los argumentos de una función.
 3. Imprimir en la terminal estándar el resultado de una función.
+
+## Funcionamiento de la implementación
