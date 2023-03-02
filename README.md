@@ -25,6 +25,7 @@ make
 ````
 NOTA: El directorio del bash debe de apuntar al directorio que incluye los archivos del proyecto incluido el makefile
 
+
 Sigue los pasos del proceso de compilación para crear tu
 programa ejecutable con extensión ELF. Nota que arm-gcc y arm-
 as son alias del compilador cruzado GCC para arm.
