@@ -1,58 +1,98 @@
-.section .text
-    //; r0 = buffer to write to
-    //; r1 = number of bytes to read
-.global _start
+.arch armv7-m
+	.fpu softvfp
+	.eabi_attribute 20, 1
+	.eabi_attribute 21, 1
+	.eabi_attribute 23, 3
+	.eabi_attribute 24, 1
+	.eabi_attribute 25, 1
+	.eabi_attribute 26, 2
+	.eabi_attribute 30, 6
+	.eabi_attribute 34, 1
+	.eabi_attribute 18, 4
+	.file	"suma.c"
+	.text
+	.align	1
+	.global	read_user_input
+	.syntax unified
+	.thumb
+	.thumb_func
+	.type	read_user_input, %function
+.data
+my_array:    .word   0, 0, 0, 0, 0   @ Arreglo de 5 valores inicializados en 0
+
+first:
+    .skip 8
+sum:
+    .skip 8
 
 insert_value:
     @ Guardamos los registros necesarios
     push    {r7}
-    push    {r4-r6}
-    
+    sub	sp, sp, #20
+	add	r7, sp, #0
+
     @ Cargamos los parámetros en los registros
-    mov     r4, r0      @ r0 contiene la dirección del arreglo
-    mov     r5, r1      @ r1 contiene el índice
-    mov     r6, r2      @ r2 contiene el valor a insertar
+    str	r0, [r7, #12]@ r0 contiene la dirección del arreglo
+	str	r1, [r7, #8]@ r1 contiene el índice    
+	str	r2, [r7, #4] @ r2 contiene el valor a insertar
+    
+    ldr	r0, [r7, #12]
+	ldr	r1, [r7, #8]
+	ldr	r2, [r7, #4]
 
     @ Calculamos la dirección del elemento a insertar
-    lsl     r5, r5, #2   @ Multiplicamos el índice por 4 (el tamaño de un word)
-    add     r4, r4, r5   @ Sumamos la dirección base del arreglo con el offset del elemento
+    lsl     r1, r1, #2   @ Multiplicamos el índice por 4 (el tamaño de un word)
+    add     r0, r0, r1   @ Sumamos la dirección base del arreglo con el offset del elemento
 
     @ Insertamos el valor en el arreglo
-    str     r6, [r4]
-
+    str     r2, [r0]
     @ Recuperamos los registros y salimos de la función
-    pop     {r4-r6}
+    movs r3,#0
+    mov	r0, r3
+	adds	r7, r7, #20
+	mov	sp, r7
     pop     {r7}
+    bx lr
+
 
 sum_array:
-    @ Guardamos los registros necesarios
+    @ Guardamos los registros necesarios@ r0 contiene la dirección del arreglo
     push    {r7}
-    push    {r4-r5}
+    sub	sp, sp, #20
+	add	r7, sp, #0
 
     @ Cargamos los parámetros en los registros
-    mov     r4, r0      @ r0 contiene la dirección del arreglo
-    mov     r5, #0      @ r5 contendrá la suma de los valores del arreglo
+
+    str	r0, [r7, #4]   @ r0 contiene la dirección del arreglo
+	movs	r3, #5     @la cantidad de elementos en el arreglo
+	str	r3, [r7, #8]
+	movs	r3, #0     @la suma de los valores del arreglo
+	str	r3, [r7, #12]
+    
+    ldr	r0, [r7, #12]  @r0 contiene la suma de los valores del arreglo
+    ldr	r1, [r7, #8]   @r1 contendrá la cantidad de elementos en el arreglo
+	ldr	r2, [r7, #4]   @r2 contiene la dirección del arreglo
+
+
     @ Recorremos el arreglo y sumamos sus valores
-    ldr     r0, =5      @ r0 contendrá la cantidad de elementos en el arreglo
-    ldr     r1, [r4], #4   @ r1 contendrá el primer elemento del arreglo
-    ldr r5, =sum
-    mov r5, #0
-    add     r5, r5, r1    @ Sumamos el primer elemento del arreglo a la suma total
+    ldr     r3, [r2], #4   @ r1 contendrá el primer elemento del arreglo
+    add     r0, r0, r3    @ Sumamos el primer elemento del arreglo a la suma total
 
-_loopS:
-    subs    r0, r0, #1   @ Decrementamos el contador
-    cmp     r0, #0      @ Compara el contador con 0
-    beq     _end         @ Si el contador llega a 0, salimos del loop
-    ldr     r1, [r4], #4   @ Cargamos el siguiente elemento del arreglo
-    ldr r5, =sum
-    add     r5, r5, r1    @ Sumamos el siguiente elemento del arreglo a la suma total
-    b       _loopS
-
-_end:
-    @ Guardamos la suma en el registro de retorno y salimos de la función
-    mov     r0, r5
-    pop     {r4-r5}
-    pop     {r7}
+    loop:
+        subs    r1, r1, #1   @ Decrementamos el contador 
+        beq     end         @ Si el contador llega a 0, salimos del loop
+        ldr     r3, [r2], #4   @ Cargamos el siguiente elemento del arreglo
+        add     r0, r0, r3    @ Sumamos el siguiente elemento del arreglo a la suma total
+        b       loop
+    end:
+        @ Guardamos la suma en el registro de retorno y salimos de la función
+        mov	r3, r0
+        mov	r0, r3
+        adds	r7, r7, #20
+        mov	sp, r7
+        @ sp needed
+        pop	{r7}
+        bx	lr
 
 read_user_input:
      # prologue starts here
@@ -77,12 +117,15 @@ read_user_input:
      mov    sp, r7          @ gets sp original value back
      pop    {r7}            @ gets r7 original value back
      bx     lr              @ return to caller
-
-
-@ ASCII to Integer function (Processes in reverse byte by byte)
-//; "123\n\0"
-//; r0 = pointer to a string of ascii numbers
-my_atoi:
+     .size	read_user_input, .-read_user_input
+	.text
+	.align	1
+	.global	my_atoi
+	.syntax unified
+	.thumb
+	.thumb_func
+	.type	my_atoi, %function
+my_atoi: @ ASCII to Integer function (Processes in reverse byte by byte)
     push {r7}               @ respalda r7 (frame pointer)
     push {r4-r8}            @ respalda registros necesarios
     mov r2, #0x0            @ our string counter
@@ -116,7 +159,15 @@ _leave:
     mov r0, r5              @ moves r5 value to r0 (end state counter value)
     pop {r4-r8}             @ gets registers original value
     pop {r7}                @ gets r7 original value
-
+    bx     lr              @ return to caller
+    .size	my_atoi, .-my_atoi
+	.text
+	.align	1
+	.global	int_to_string
+	.syntax unified
+	.thumb
+	.thumb_func
+	.type	int_to_string, %function
 int_to_string:
     push {r7}               @ respalda r7 (frame pointer)
     push {r4-r6}            @ respalda registros necesarios
@@ -149,7 +200,15 @@ _leave_int:
     strb r4, [r5]
     pop {r4-r6}
     pop {r7}
-
+    bx     lr              @ return to caller
+    .size	int_to_string, .-int_to_string
+	.text
+	.align	1
+	.global	display
+	.syntax unified
+	.thumb
+	.thumb_func
+	.type	display, %function
 display:
     push {r7}               @ respalda r7 (frame pointer)
     mov r7, #0x4            @ system call to display
@@ -158,67 +217,47 @@ display:
     mov r2,#0x8
     svc 0x0
     pop {r7}
-
-
+    bx     lr              @ return to caller
+    .size	display, .-display
+	.text
+	.align	1
+	.global	_start
+	.syntax unified
+	.thumb
+	.thumb_func
+	.type	_start, %function
 _start:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 1, uses_anonymous_args = 0
 	@ link register save eliminated.
-	push {r7}               @ respalda r7 (frame pointer)
-	add	r7, sp, #0          @ actualiza r7 (frame pointer)
+	push	{r7,lr}
+	add	r7, sp, #0
 	@pegar
-    mov r10, #0
+    mov r5, #0
     b compara
-
 for_loop:
-
-    @ read user input
 	ldr r0, =first
     ldr r1, =#0x6
     bl read_user_input
 
-    @ convert input to number
     ldr r0, =first
     bl my_atoi
-    mov r1,r0
-
-    @ insert value to array
+    mov r2,r0
     ldr r0, =my_array
-    mov r2, r5
+    mov r1, r5
     bl insert_value
-
-    @ increments 
-    add r10,r10,#1
-    b compara
-
+    add r5,r5,#1
 compara:
-    cmp r10, #3
+    cmp r5, #5
     blt for_loop
-
-
     ldr r0, =my_array
     bl sum_array
     bl int_to_string
     bl display
-    mov r0,#0x0
-    mov r7, #0x1
-    svc 0x0 
-	movs	r3, #0
-	mov	r0, r3
-	mov	sp, r7 @ sp needed
+	mov	sp, r7
+	@ sp needed
 	pop	{r7}
 	bx	lr
+	.size	_start, .-_start
 	.ident	"GCC: (Ubuntu 11.3.0-1ubuntu1~22.04) 11.3.0"
 	.section .note.GNU-stack,"",%progbits
-
-.section .data
-
-my_array:    .word   0, 0, 0, 0, 0   @ Arreglo de 5 valores inicializados en 0
-
-first:
-    .skip 8
-second:
-    .skip 8
-sum:
-    .skip 8
-    
