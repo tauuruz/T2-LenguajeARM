@@ -17,6 +17,7 @@
 	.thumb
 	.thumb_func
 	.type	read_user_input, %function
+
 .data
 my_array:    .word   0, 0, 0, 0, 0   @ Arreglo de 5 valores inicializados en 0
 
@@ -25,32 +26,33 @@ first:
 sum:
     .skip 8
 
+    
 insert_value:
     @ Guardamos los registros necesarios
     push    {r7}
     sub	sp, sp, #20
-    add	r7, sp, #0
+	add	r7, sp, #0
 
     @ Cargamos los parámetros en los registros
-    str	r0, [r7, #12]	@ r0 contiene la dirección del arreglo
-    str r1, [r7, #8]	@r1 contiene el índice    
-    str	r2, [r7, #4] 	@r2 contiene el valor a insertar
+    str	r0, [r7, #12]@ r0 contiene la dirección del arreglo
+	str	r1, [r7, #8]@ r1 contiene el índice    
+	str	r2, [r7, #4] @ r2 contiene el valor a insertar
     
     ldr	r0, [r7, #12]
-    ldr	r1, [r7, #8]
-    ldr	r2, [r7, #4]
+	ldr	r1, [r7, #8]
+	ldr	r2, [r7, #4]
 
     @ Calculamos la dirección del elemento a insertar
-    lsl r1, r1, #2   @ Multiplicamos el índice por 4 (el tamaño de un word)
-    add	r0, r0, r1   @ Sumamos la dirección base del arreglo con el offset del elemento
+    lsl     r1, r1, #2   @ Multiplicamos el índice por 4 (el tamaño de un word)
+    add     r0, r0, r1   @ Sumamos la dirección base del arreglo con el offset del elemento
 
     @ Insertamos el valor en el arreglo
-    str r2, [r0]
+    str     r2, [r0]
     @ Recuperamos los registros y salimos de la función
     movs r3,#0
     mov	r0, r3
-    adds r7, r7, #20
-    mov	sp, r7
+	adds	r7, r7, #20
+	mov	sp, r7
     pop     {r7}
     bx lr
 
@@ -59,18 +61,19 @@ sum_array:
     @ Guardamos los registros necesarios@ r0 contiene la dirección del arreglo
     push    {r7}
     sub	sp, sp, #20
-    add	r7, sp, #0
-    
+	add	r7, sp, #0
+
     @ Cargamos los parámetros en los registros
+
     str	r0, [r7, #4]   @ r0 contiene la dirección del arreglo
-    movs r3, #5        @la cantidad de elementos en el arreglo
-    str r3, [r7, #8]
-    movs r3, #0        @la suma de los valores del arreglo
-    str	r3, [r7, #12]
+	movs	r3, #5     @la cantidad de elementos en el arreglo
+	str	r3, [r7, #8]
+	movs	r3, #0     @la suma de los valores del arreglo
+	str	r3, [r7, #12]
     
     ldr	r0, [r7, #12]  @r0 contiene la suma de los valores del arreglo
     ldr	r1, [r7, #8]   @r1 contendrá la cantidad de elementos en el arreglo
-    ldr	r2, [r7, #4]   @r2 contiene la dirección del arreglo
+	ldr	r2, [r7, #4]   @r2 contiene la dirección del arreglo
 
 
     @ Recorremos el arreglo y sumamos sus valores
@@ -92,38 +95,30 @@ sum_array:
         @ sp needed
         pop	{r7}
         bx	lr
-
 read_user_input:
-     # prologue starts here
-     push   {r7}            @ respalda r7 (frame pointer)
-     sub    sp, sp, #12     @ ajusta el tamaño del marco de la funcion
-     add    r7, sp, #0      @ actualiza r7 (frame pointer)
-     str    r0, [r7, #4]    @ backs buffer's base address up
-     str    r1, [r7, #8]    @ backs buffer size up
-     
-     # Function body
-     ldr    r2, [r7, #8]    @ Loads buffer size
-     ldr    r1, [r7, #4]    @ Loads buffer's base address
-     mov    r0, #0x0        @ file descritor kind (STDIN)
-     mov    r7, #3          @ sets the kind of function call
-     svc    0x0             @ performs system call
-     mov    r3, r0          @ saves the number of red characters
-     add    r7, sp, #0      @ gets r7 back
+    # prologue starts here
+    push   {r7}            @ respalda r7 (frame pointer)
+    sub    sp, sp, #12     @ ajusta el tamaño del marco de la funcion
+    add    r7, sp, #0      @ actualiza r7 (frame pointer)
+    str    r0, [r7, #4]    @ backs buffer's base address up
+    str    r1, [r7, #8]    @ backs buffer size up
+    
+    # Function body
+    ldr    r2, [r7, #8]    @ Loads buffer size
+    ldr    r1, [r7, #4]    @ Loads buffer's base address
+    mov    r0, #0x0        @ file descritor kind (STDIN)
+    mov    r7, #3          @ sets the kind of function call
+    svc    0x0             @ performs system call
+    mov    r3, r0          @ saves the number of red characters
+    add    r7, sp, #0      @ gets r7 back
 
-     # Epilogue
-     mov   r0, r3           @ returns the number of red characters
-     adds   r7, r7, #12     @ frees the function stack space
-     mov    sp, r7          @ gets sp original value back
-     pop    {r7}            @ gets r7 original value back
-     bx     lr              @ return to caller
-     .size	read_user_input, .-read_user_input
-	.text
-	.align	1
-	.global	my_atoi
-	.syntax unified
-	.thumb
-	.thumb_func
-	.type	my_atoi, %function
+    # Epilogue
+    mov   r0, r3           @ returns the number of red characters
+    adds   r7, r7, #12     @ frees the function stack space
+    mov    sp, r7          @ gets sp original value back
+    pop    {r7}            @ gets r7 original value back
+    bx     lr              @ return to caller
+
 my_atoi: @ ASCII to Integer function (Processes in reverse byte by byte)
     push {r7}               @ respalda r7 (frame pointer)
     push {r4-r8}            @ respalda registros necesarios
@@ -159,21 +154,13 @@ _leave:
     pop {r4-r8}             @ gets registers original value
     pop {r7}                @ gets r7 original value
     bx     lr              @ return to caller
-    .size	my_atoi, .-my_atoi
-	.text
-	.align	1
-	.global	int_to_string
-	.syntax unified
-	.thumb
-	.thumb_func
-	.type	int_to_string, %function
+    
 int_to_string:
-    push {r7}               @ respalda r7 (frame pointer)
-    push {r4-r6}            @ respalda registros necesarios
+    push {lr}
+    push {r4-r11}
     mov r2, #0x0
     mov r3, #1000
     mov r7, #10
-
 _loop:
     mov r4, #0x0
     udiv r4,r0,r3
@@ -190,42 +177,35 @@ _loop:
     cmp r3, #0
     beq _leave_int
     b _loop
-
 _leave_int:
-    mov r4, #0xa    
+    mov r4, #0xa
     ldr r5, =sum
     add r5,r5,r2
     add r5,r5,#1
     strb r4, [r5]
-    pop {r4-r6}
-    pop {r7}
-    bx     lr              @ return to caller
-    .size	int_to_string, .-int_to_string
-	.text
-	.align	1
-	.global	display
-	.syntax unified
-	.thumb
-	.thumb_func
-	.type	display, %function
+    pop {r4-r11}
+    pop {pc}
 display:
-    push {r7}               @ respalda r7 (frame pointer)
-    mov r7, #0x4            @ system call to display
-    mov r0, #0x1
-    ldr r1, =sum
-    mov r2,#0x8
+    push	{r0,r1,r2,r7}
+    @ Cargamos los parámetros en los registros
+    movs	r7, #0x4     @representa el número de la llamada al sistema para la función "write"
+    movs	r0, #0x1    @representa el descriptor de archivo para la salida estándar
+    ldr 	r1, =sum    @Carga la dirección de la variable "sum"
+    movs	r2, #0x8    @representa el descriptor de archivo para la salida estándar
     svc 0x0
-    pop {r7}
-    bx     lr              @ return to caller
-    .size	display, .-display
-	.text
-	.align	1
-	.global	_start
+    mov r3, #0
+    mov	r0, r3
+	@ sp needed
+	pop	{r0,r1,r2,r7}
+	bx	lr
+
+    .align	1
+	.global	main
 	.syntax unified
 	.thumb
 	.thumb_func
-	.type	_start, %function
-_start:
+	.type	main, %function
+main:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 1, uses_anonymous_args = 0
 	@ link register save eliminated.
@@ -252,11 +232,14 @@ compara:
     ldr r0, =my_array
     bl sum_array
     bl int_to_string
+    
     bl display
+	movs	r3, #0
+	mov	r0, r3
 	mov	sp, r7
 	@ sp needed
-	pop	{r7}
+	pop	{r7,pc}
 	bx	lr
-	.size	_start, .-_start
+	.size	main, .-main
 	.ident	"GCC: (Ubuntu 11.3.0-1ubuntu1~22.04) 11.3.0"
 	.section .note.GNU-stack,"",%progbits
