@@ -4,7 +4,7 @@ UEA: Microcontroladores
 
 ## Integrantes del equipo
 Erick David Ruiz Coronel - 2143067521  
-xxxxx
+Diego Reyes Blancas - 2213026667
     
 
 ## Proceso de instalación del compilador cruzado para arm
