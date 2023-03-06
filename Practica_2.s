@@ -156,6 +156,7 @@ _leave:
     bx     lr              @ return to caller
     
 int_to_string:
+    push {lr}
     push {r7}
     mov r2, #0x0
     mov r3, #1000
@@ -183,7 +184,7 @@ _leave_int:
     add r5,r5,#1
     strb r4, [r5]
     pop {r7}
-    bx {lr}
+    pop {pc}
 display:
     push	{r0,r1,r2,r7}
     @ Cargamos los parámetros en los registros
