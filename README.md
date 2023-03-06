@@ -152,8 +152,29 @@ read_user_input:
 ````
 display:
 ````
+# prologue starts here
 push {r7}               @ respalda r7 (frame pointer)
 
+# Epilogue
 pop {r7}		@ gets r7 original value back
 bx     lr               @ return to caller
+````
+my_atoi:
+````
+# prologue starts here
+push {r7}               @ respalda r7 (frame pointer)
+push {r4-r8}            @ respalda registros necesarios
+
+# Epilogue
+pop {r4-r8}             @ gets registers original value
+pop {r7}                @ gets r7 original value
+bx     lr              @ return to caller
+````
+int_to_string:
+````
+# prologue starts here
+
+
+# Epilogue
+
 ````
