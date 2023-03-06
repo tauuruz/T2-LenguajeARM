@@ -90,8 +90,8 @@ El funcionamiento se da de la siguiente manera:
 
 
 ## Marco de funciones.
-````
 insert_value:
+````
     # prologue starts here
     push   {r7}            @ respalda r7 (frame pointer)
     sub    sp, sp, #20     @ ajusta el tamaño del marco de la funcion se solicitan 20 ya que a la funcion le llegan 3 parametros
@@ -108,8 +108,11 @@ insert_value:
     mov    sp, r7          @ gets sp original value back
     pop    {r7}            @ gets r7 original value back
     bx     lr              @ return to caller
-    
+````
 sum_array:
+````
+    
+
     @ Guardamos los registros necesarios
     push   {r7}            @ respalda r7 (frame pointer)
     sub    sp, sp, #20     @ ajusta el tamaño del marco de la funcion se solicitan 20 ya que a la funcion le llegan 1 parametros 
@@ -131,4 +134,3 @@ sum_array:
     pop    {r7}            @ gets r7 original value back
     bx     lr              @ return to caller
 ````
-
