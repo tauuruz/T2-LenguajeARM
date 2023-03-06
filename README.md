@@ -90,7 +90,7 @@ El funcionamiento se da de la siguiente manera:
 
 
 ## Marco de funciones.
-
+````
 insert_value:
     # prologue starts here
     push   {r7}            @ respalda r7 (frame pointer)
@@ -130,5 +130,5 @@ sum_array:
     mov    sp, r7          @ gets sp original value back
     pop    {r7}            @ gets r7 original value back
     bx     lr              @ return to caller
-
+````
 
