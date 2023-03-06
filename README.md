@@ -134,3 +134,19 @@ sum_array:
     pop    {r7}            @ gets r7 original value back
     bx     lr              @ return to caller
 ````
+read_user_input:
+````
+     # prologue starts here
+    push   {r7}            @ respalda r7 (frame pointer)
+    sub    sp, sp, #12     @ ajusta el tamaño del marco de la funcion
+    add    r7, sp, #0      @ actualiza r7 (frame pointer)
+    str    r0, [r7, #4]    @ backs buffer's base address up
+    str    r1, [r7, #8]    @ backs buffer size up
+    
+     # Epilogue
+    mov   r0, r3           @ returns the number of red characters
+    adds   r7, r7, #12     @ frees the function stack space
+    mov    sp, r7          @ gets sp original value back
+    pop    {r7}            @ gets r7 original value back
+    bx     lr              @ return to caller
+````
