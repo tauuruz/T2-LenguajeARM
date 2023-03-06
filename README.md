@@ -150,3 +150,10 @@ read_user_input:
     pop    {r7}            @ gets r7 original value back
     bx     lr              @ return to caller
 ````
+display:
+````
+push {r7}               @ respalda r7 (frame pointer)
+
+pop {r7}		@ gets r7 original value back
+bx     lr               @ return to caller
+````
