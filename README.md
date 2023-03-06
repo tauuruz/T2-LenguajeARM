@@ -173,8 +173,11 @@ bx     lr              @ return to caller
 int_to_string:
 ````
 # prologue starts here
-
+push {r7}               @ respalda r7 (frame pointer)
+push {r4-r11}            @ respalda registros necesarios
 
 # Epilogue
-
+pop {r4-r11}             @ gets registers original value
+pop {r7}                @ gets r7 original value
+bx     lr              @ return to caller
 ````
