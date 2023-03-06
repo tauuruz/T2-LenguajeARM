@@ -87,3 +87,48 @@ El funcionamiento se da de la siguiente manera:
 4. Despues de la conversion procesa la cadena en reversa y lo convierte en entero.  
 5. Cuando se realiza la segunda conversion al numero entero se agrega al arreglo.
 6. Al final, el valor de salida es el resultado de sumar los 5 valores numericos dentro del arreglo.
+
+
+## Marco de funciones.
+
+insert_value:
+    # prologue starts here
+    push   {r7}            @ respalda r7 (frame pointer)
+    sub    sp, sp, #20     @ ajusta el tamaño del marco de la funcion se solicitan 20 ya que a la funcion le llegan 3 parametros
+    add    r7, sp, #0      @ actualiza r7 (frame pointer)
+    
+    str	r0, [r7, #12]@ r0 contiene la dirección del arreglo
+	str	r1, [r7, #8]@ r1 contiene el índice    
+	str	r2, [r7, #4] @ r2 contiene el valor a insertar
+    
+    # Epilogue
+    movs r3,#0
+    mov   r0, r3           @ returns 0
+    adds   r7, r7, #20     @ frees the function stack space
+    mov    sp, r7          @ gets sp original value back
+    pop    {r7}            @ gets r7 original value back
+    bx     lr              @ return to caller
+    
+sum_array:
+    @ Guardamos los registros necesarios
+    push   {r7}            @ respalda r7 (frame pointer)
+    sub    sp, sp, #20     @ ajusta el tamaño del marco de la funcion se solicitan 20 ya que a la funcion le llegan 1 parametros 
+                           @y guarda 2 valores en registros
+    add    r7, sp, #0      @ actualiza r7 (frame pointer)
+
+    @ Cargamos los parámetros en los registros
+
+    str	r0, [r7, #4]   @ r0 contiene la dirección del arreglo
+	movs	r3, #5     @la cantidad de elementos en el arreglo
+	str	r3, [r7, #8]
+	movs	r3, #0     @la suma de los valores del arreglo
+	str	r3, [r7, #12]
+    
+    # Epilogue
+    mov   r0, r3           @ returns la suma del arreglo
+    adds   r7, r7, #20     @ frees the function stack space
+    mov    sp, r7          @ gets sp original value back
+    pop    {r7}            @ gets r7 original value back
+    bx     lr              @ return to caller
+
+
